@@ -4,15 +4,25 @@ library(glue)
 library(here)
 library(fs)
 
-# Read images ------------------------------------------------------------------
-rstudio_stickers <- c(dir_ls(here("PNG")), dir_ls("~/Desktop/extra-hex"))
-other_stickers <- dir_ls(here("other-stickers", "_png")) %>%
-  str_subset("recipes", negate = TRUE) %>%
-  str_subset("ropensci", negate = TRUE) %>%
-  str_subset("ropensci3", negate = TRUE) %>%
-  str_subset("ropensci4", negate = TRUE)
+aspect_ratio <- "9.25:7.75"
+rstudio_only <- TRUE
 
-sticker_files <- c(rstudio_stickers, other_stickers)
+# Read images ------------------------------------------------------------------
+rstudio_stickers <- dir_ls(here("PNG")) %>%
+  str_subset("rmarkdown", negate = TRUE)
+new_stickers <- dir_ls(here("other-stickers", "unmerged"))
+
+if (!rstudio_only) {
+  other_stickers <- dir_ls(here("other-stickers", "_png")) %>%
+    str_subset("recipes", negate = TRUE) %>%
+    str_subset("ropensci", negate = TRUE) %>%
+    str_subset("ropensci3", negate = TRUE) %>%
+    str_subset("ropensci4", negate = TRUE)
+} else {
+  other_stickers <- NULL
+}
+
+sticker_files <- c(rstudio_stickers, new_stickers, other_stickers)
 sticker_names <- path_file(sticker_files)
 stickers <- sticker_files %>%
   map(function(path) {
@@ -21,7 +31,6 @@ stickers <- sticker_files %>%
   map(image_transparent, "white") %>%
   map(image_trim) %>%
   set_names(sticker_names)
-
 
 # Desired sticker resolution in pixels
 sticker_width <- 121
@@ -53,12 +62,6 @@ sticker_height <- stickers %>%
 # Coerce sticker dimensions
 stickers <- stickers %>%
   map(image_resize, paste0(sticker_width, "x", sticker_height, "!"))
-
-# Randomize stickers
-stickers <- stickers[sample(seq_along(stickers), size = length(stickers))]
-
-stickers[[32]] %>%
-  image_colorize(0, "white")
 
 
 # Create sticker wall ----------------------------------------------------------
@@ -99,13 +102,91 @@ create_rows <- function(row_lens, row_cuml, row_splt,
 
   return(row)
 }
+calc_dim <- function(aspect_ratio = "16:9", total_files = length(stickers),
+                     allow_resample = TRUE, max_num = length(stickers)) {
+  target_width <- str_split(aspect_ratio, ":") %>%
+    flatten() %>%
+    .[[1]] %>%
+    as.integer()
+  target_height <- str_split(aspect_ratio, ":") %>%
+    flatten() %>%
+    .[[2]] %>%
+    as.integer()
 
-sticker_row_size <- 14
+  multiplier <- 1L
+  ideal_dim <- FALSE
+  while(!ideal_dim) {
+    cur_width <- target_width * multiplier
+    cur_height <- target_height * multiplier
+
+    sticker_row_size <- round(cur_width / sticker_width, digits = 0)
+    sticker_col_size <- round(((cur_height - sticker_height) / (sticker_height / 1.33526)) + 1)
+    total_stickers <- sticker_row_size * sticker_col_size
+
+    if (sticker_col_size %% 2 != 0) {
+      multiplier <- multiplier + 1L
+    } else if ((total_stickers > total_files) | (total_stickers > max_num)) {
+      if (allow_resample) {
+        final_mult <- multiplier
+      } else {
+        final_mult <- multiplier - 1L
+      }
+      ideal_dim <- TRUE
+    } else {
+      multiplier <- multiplier + 1L
+    }
+  }
+
+  ret_list <- list(target_width = target_width * final_mult,
+                   target_height = target_height * final_mult)
+}
+
+dimensions <- calc_dim(aspect_ratio = aspect_ratio,
+                       total_files = length(stickers), allow_resample = TRUE,
+                       max_num = ifelse(aspect_ratio == "16:9",
+                                        length(stickers), length(stickers)))
+
+target_width <- dimensions$target_width
+target_height <- dimensions$target_height
+
+sticker_row_size <- round(target_width / sticker_width, digits = 0)
+sticker_col_size <- round(((target_height - sticker_height) /
+                             (sticker_height / 1.33526)) + 1,
+                          digits = 0)
+total_stickers <- sticker_row_size * sticker_col_size
+
+# Randomize stickers
+if (total_stickers > length(stickers)) {
+  extra <- total_stickers - length(stickers)
+  good_sample <- FALSE
+  while(!good_sample) {
+    choose <- sample(c(seq_along(stickers),
+                       sample(seq_along(stickers), size = extra)),
+                     size = total_stickers, replace = FALSE)
+    check_stick <- c(choose, choose)
+
+    unique_stick <- sort(unique(choose))
+    good_check <- TRUE
+    for (i in seq_along(unique_stick)) {
+      cur_loc <- which(check_stick == unique_stick[i])
+      if (any(diff(cur_loc) <= (sticker_row_size * 2.5))) {
+        good_check <- FALSE
+        break
+      }
+    }
+
+    if (good_check) good_sample <- TRUE
+  }
+
+  stickers <- stickers[choose]
+} else {
+  stickers <- stickers[sample(seq_along(stickers), size = total_stickers,
+                              replace = FALSE)]
+}
 
 # Calculate row sizes
-# sticker_col_size <- ceiling(length(stickers) / (sticker_row_size - 0.5))
-row_length <- rep(sticker_row_size, sticker_row_size)
-row_split <- rep(c(FALSE, TRUE), length.out = sticker_row_size)
+row_length <- rep(sticker_row_size, sticker_col_size)
+row_split <- rep(c(FALSE, TRUE), length.out = sticker_col_size)
 
 color_rows <- pmap(.l = list(row_lens = row_length,
                              row_cuml = cumsum(row_length),
@@ -126,7 +207,7 @@ trans_rows <- c(trans_rows, trans_rows[[1]])
 
 # Add stickers to canvas
 canvas <- image_blank(sticker_row_size * sticker_width,
-                      sticker_height + (sticker_row_size - 1) * sticker_height / 1.33526,
+                      sticker_height + (sticker_col_size - 1) * sticker_height / 1.33526,
                       "white")
 
 color_wall <- reduce2(color_rows, seq_along(color_rows),
@@ -145,17 +226,19 @@ trans_wall <- reduce2(trans_rows, seq_along(trans_rows),
                       ),
                       .init = canvas)
 
-
-
+out_type <- switch(aspect_ratio,
+                   "16:9" = "zoom",
+                   "9.25:7.75" = "mousepad",
+                   "other")
 
 color_wall %>%
   image_crop(glue("{sticker_row_size * sticker_width}",
                   "x{(sticker_height * .75) + (sticker_row_size - 1) * sticker_height / 1.33526}",
                   "+0+{sticker_height * .25}")) %>%
-  image_write(here("hex-wall", "full-color-wall.png"))
+  image_write(here("hex-wall", out_type, "full-color-wall.png"))
 
 trans_wall %>%
   image_crop(glue("{sticker_row_size * sticker_width}",
                   "x{(sticker_height * .75) + (sticker_row_size - 1) * sticker_height / 1.33526}",
                   "+0+{sticker_height * .25}")) %>%
-  image_write(here("hex-wall", "opacity-wall.png"))
+  image_write(here("hex-wall", out_type, "opacity-wall.png"))
