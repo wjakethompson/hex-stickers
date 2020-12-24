@@ -3,12 +3,12 @@ library(magick)
 library(glue)
 library(here)
 
-pkg <- "mir"
+pkg <- "table-contest"
 
 image_read(glue("~/Desktop/{pkg}.png")) %>%
+  image_transparent("white") %>%
   image_trim() %>%
   image_scale("2521x2911!") %>%
-  image_write(glue("~/Desktop/{pkg}-2.png"))
   image_write(here("other-stickers", "_png", glue("{pkg}.png")))
 
 
