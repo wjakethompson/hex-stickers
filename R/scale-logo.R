@@ -11,7 +11,6 @@ image_read(glue("~/Desktop/{pkg}.png")) %>%
   image_scale("2521x2911!") %>%
   image_write(here("other-stickers", "_png", glue("{pkg}.png")))
 
-
 # image_read(glue("~/Desktop/new-stickers/{pkg}.png")) %>%
 #   image_trim() %>%
 #   image_scale("2206x2557!") %>%
