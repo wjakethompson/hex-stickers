@@ -4,8 +4,8 @@ library(glue)
 library(here)
 library(fs)
 
-aspect_ratio <- "9.25:7.75"
-rstudio_only <- TRUE
+aspect_ratio <- "27:12"
+rstudio_only <- FALSE
 
 # Read images ------------------------------------------------------------------
 rstudio_stickers <- dir_ls(here("PNG")) %>%
@@ -13,11 +13,7 @@ rstudio_stickers <- dir_ls(here("PNG")) %>%
 new_stickers <- dir_ls(here("other-stickers", "unmerged"))
 
 if (!rstudio_only) {
-  other_stickers <- dir_ls(here("other-stickers", "_png")) %>%
-    str_subset("recipes", negate = TRUE) %>%
-    str_subset("ropensci", negate = TRUE) %>%
-    str_subset("ropensci3", negate = TRUE) %>%
-    str_subset("ropensci4", negate = TRUE)
+  other_stickers <- dir_ls(here("other-stickers", "_png"), type = "file")
 } else {
   other_stickers <- NULL
 }
@@ -158,6 +154,7 @@ total_stickers <- sticker_row_size * sticker_col_size
 # Randomize stickers
 if (total_stickers > length(stickers)) {
   extra <- total_stickers - length(stickers)
+  iter <- 0
   good_sample <- FALSE
   while(!good_sample) {
     choose <- sample(c(seq_along(stickers),
@@ -175,7 +172,13 @@ if (total_stickers > length(stickers)) {
       }
     }
 
-    if (good_check) good_sample <- TRUE
+    if (good_check) {
+      good_sample <- TRUE
+    } else {
+      iter <- iter + 1
+    }
+
+    if (iter > 100000) stop("Max iterations reached")
   }
 
   stickers <- stickers[choose]
@@ -229,7 +232,12 @@ trans_wall <- reduce2(trans_rows, seq_along(trans_rows),
 out_type <- switch(aspect_ratio,
                    "16:9" = "zoom",
                    "9.25:7.75" = "mousepad",
+                   "27:12" = "mousepad-L",
+                   "31:12" = "mousepad-XL",
                    "other")
+
+outdir <- here("hex-wall", out_type)
+if (!dir_exists(outdir)) dir_create(outdir)
 
 color_wall %>%
   image_crop(glue("{sticker_row_size * sticker_width}",
