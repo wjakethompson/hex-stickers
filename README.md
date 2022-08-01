@@ -2,8 +2,8 @@
 # RStudio hex stickers
 
 Want to buy a sticker? Many can be purchased from
-<http://swag.rstudio.com/>. Or [see our instructions](./stickermule.md)
-on how to print them yourself.
+<http://swag.rstudio.com/>. Or [see our instructions](#printing) on how
+to print them yourself.
 
 <table>
 
@@ -45,6 +45,12 @@ on how to print them yourself.
 
 <td>
 
+<img alt="Logo for censored" src="thumbs/censored.png" width="120" height="139"><br /><a href="PNG/censored.png">censored.png</a><br /><a href="SVG/censored.svg">censored.svg</a>
+
+</td>
+
+<td>
+
 <img alt="Logo for clock" src="thumbs/clock.png" width="120" height="139"><br /><a href="PNG/clock.png">clock.png</a><br /><a href="SVG/clock.svg">clock.svg</a>
 
 </td>
@@ -67,15 +73,15 @@ on how to print them yourself.
 
 </td>
 
+</tr>
+
+<tr>
+
 <td>
 
 <img alt="Logo for dbplot" src="thumbs/dbplot.png" width="120" height="139"><br /><a href="PNG/dbplot.png">dbplot.png</a><br /><a href="SVG/dbplot.svg">dbplot.svg</a>
 
 </td>
-
-</tr>
-
-<tr>
 
 <td>
 
@@ -101,15 +107,15 @@ on how to print them yourself.
 
 </td>
 
+</tr>
+
+<tr>
+
 <td>
 
 <img alt="Logo for dsbox" src="thumbs/dsbox.png" width="120" height="139"><br /><a href="PNG/dsbox.png">dsbox.png</a><br /><a href="SVG/dsbox.svg">dsbox.svg</a>
 
 </td>
-
-</tr>
-
-<tr>
 
 <td>
 
@@ -135,15 +141,15 @@ on how to print them yourself.
 
 </td>
 
+</tr>
+
+<tr>
+
 <td>
 
 <img alt="Logo for forcats" src="thumbs/forcats.png" width="120" height="139"><br /><a href="PNG/forcats.png">forcats.png</a><br /><a href="SVG/forcats.svg">forcats.svg</a>
 
 </td>
-
-</tr>
-
-<tr>
 
 <td>
 
@@ -169,15 +175,15 @@ on how to print them yourself.
 
 </td>
 
+</tr>
+
+<tr>
+
 <td>
 
 <img alt="Logo for googledrive" src="thumbs/googledrive.png" width="120" height="139"><br /><a href="PNG/googledrive.png">googledrive.png</a><br /><a href="SVG/googledrive.svg">googledrive.svg</a>
 
 </td>
-
-</tr>
-
-<tr>
 
 <td>
 
@@ -203,15 +209,15 @@ on how to print them yourself.
 
 </td>
 
+</tr>
+
+<tr>
+
 <td>
 
 <img alt="Logo for hardhat" src="thumbs/hardhat.png" width="120" height="139"><br /><a href="PNG/hardhat.png">hardhat.png</a><br /><a href="SVG/hardhat.svg">hardhat.svg</a>
 
 </td>
-
-</tr>
-
-<tr>
 
 <td>
 
@@ -233,6 +239,16 @@ on how to print them yourself.
 
 <td>
 
+<img alt="Logo for infer" src="thumbs/infer.png" width="120" height="139"><br /><a href="PNG/infer.png">infer.png</a><br /><a href="SVG/infer.svg">infer.svg</a>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
 <img alt="Logo for knitr" src="thumbs/knitr.png" width="120" height="139"><br /><a href="PNG/knitr.png">knitr.png</a><br /><a href="SVG/knitr.svg">knitr.svg</a>
 
 </td>
@@ -243,10 +259,6 @@ on how to print them yourself.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
 <img alt="Logo for lubridate" src="thumbs/lubridate.png" width="120" height="139"><br /><a href="PNG/lubridate.png">lubridate.png</a><br /><a href="SVG/lubridate.svg">lubridate.svg</a>
@@ -255,9 +267,19 @@ on how to print them yourself.
 
 <td>
 
+<img alt="Logo for luz" src="thumbs/luz.png" width="120" height="139"><br /><a href="PNG/luz.png">luz.png</a><br /><a href="SVG/luz.svg">luz.svg</a>
+
+</td>
+
+<td>
+
 <img alt="Logo for miniCRAN" src="thumbs/miniCRAN.png" width="120" height="139"><br /><a href="PNG/miniCRAN.png">miniCRAN.png</a><br /><a href="SVG/miniCRAN.svg">miniCRAN.svg</a>
 
 </td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -277,10 +299,6 @@ on how to print them yourself.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
 <img alt="Logo for parsnip" src="thumbs/parsnip.png" width="120" height="139"><br /><a href="PNG/parsnip.png">parsnip.png</a><br /><a href="SVG/parsnip.svg">parsnip.svg</a>
@@ -292,6 +310,10 @@ on how to print them yourself.
 <img alt="Logo for pins" src="thumbs/pins.png" width="120" height="139"><br /><a href="PNG/pins.png">pins.png</a><br /><a href="SVG/pins.svg">pins.svg</a>
 
 </td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -311,10 +333,6 @@ on how to print them yourself.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
 <img alt="Logo for plumbertableau" src="thumbs/plumbertableau.png" width="120" height="139"><br /><a href="PNG/plumbertableau.png">plumbertableau.png</a><br /><a href="SVG/plumbertableau.svg">plumbertableau.svg</a>
@@ -326,6 +344,10 @@ on how to print them yourself.
 <img alt="Logo for purrr" src="thumbs/purrr.png" width="120" height="139"><br /><a href="PNG/purrr.png">purrr.png</a><br /><a href="SVG/purrr.svg">purrr.svg</a>
 
 </td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -345,10 +367,6 @@ on how to print them yourself.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
 <img alt="Logo for reactlog" src="thumbs/reactlog.png" width="120" height="139"><br /><a href="PNG/reactlog.png">reactlog.png</a><br /><a href="SVG/reactlog.svg">reactlog.svg</a>
@@ -360,6 +378,10 @@ on how to print them yourself.
 <img alt="Logo for readr" src="thumbs/readr.png" width="120" height="139"><br /><a href="PNG/readr.png">readr.png</a><br /><a href="SVG/readr.svg">readr.svg</a>
 
 </td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -379,10 +401,6 @@ on how to print them yourself.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
 <img alt="Logo for reprex" src="thumbs/reprex.png" width="120" height="139"><br /><a href="PNG/reprex.png">reprex.png</a><br /><a href="SVG/reprex.svg">reprex.svg</a>
@@ -394,6 +412,10 @@ on how to print them yourself.
 <img alt="Logo for reticulate" src="thumbs/reticulate.png" width="120" height="139"><br /><a href="PNG/reticulate.png">reticulate.png</a><br /><a href="SVG/reticulate.svg">reticulate.svg</a>
 
 </td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -413,10 +435,6 @@ on how to print them yourself.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
 <img alt="Logo for rray" src="thumbs/rray.png" width="120" height="139"><br /><a href="PNG/rray.png">rray.png</a><br /><a href="SVG/rray.svg">rray.svg</a>
@@ -428,6 +446,10 @@ on how to print them yourself.
 <img alt="Logo for rrd" src="thumbs/rrd.png" width="120" height="139"><br /><a href="PNG/rrd.png">rrd.png</a><br /><a href="SVG/rrd.svg">rrd.svg</a>
 
 </td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -447,10 +469,6 @@ on how to print them yourself.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
 <img alt="Logo for rstudioapi" src="thumbs/rstudioapi.png" width="120" height="139"><br /><a href="PNG/rstudioapi.png">rstudioapi.png</a><br /><a href="SVG/rstudioapi.svg">rstudioapi.svg</a>
@@ -462,6 +480,10 @@ on how to print them yourself.
 <img alt="Logo for rvest" src="thumbs/rvest.png" width="120" height="139"><br /><a href="PNG/rvest.png">rvest.png</a><br /><a href="SVG/rvest.svg">rvest.svg</a>
 
 </td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -481,15 +503,21 @@ on how to print them yourself.
 
 </td>
 
-</tr>
+<td>
 
-<tr>
+<img alt="Logo for shinytest2" src="thumbs/shinytest2.png" width="120" height="139"><br /><a href="PNG/shinytest2.png">shinytest2.png</a><br /><a href="SVG/shinytest2.svg">shinytest2.svg</a>
+
+</td>
 
 <td>
 
 <img alt="Logo for sloop" src="thumbs/sloop.png" width="120" height="139"><br /><a href="PNG/sloop.png">sloop.png</a><br /><a href="SVG/sloop.svg">sloop.svg</a>
 
 </td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -500,6 +528,12 @@ on how to print them yourself.
 <td>
 
 <img alt="Logo for sparklyr" src="thumbs/sparklyr.png" width="120" height="139"><br /><a href="PNG/sparklyr.png">sparklyr.png</a><br /><a href="SVG/sparklyr.svg">sparklyr.svg</a>
+
+</td>
+
+<td>
+
+<img alt="Logo for spatialsample" src="thumbs/spatialsample.png" width="120" height="139"><br /><a href="PNG/spatialsample.png">spatialsample.png</a><br /><a href="SVG/spatialsample.svg">spatialsample.svg</a>
 
 </td>
 
@@ -539,19 +573,25 @@ on how to print them yourself.
 
 <td>
 
-<img alt="Logo for tibble" src="thumbs/tibble.png" width="120" height="139"><br /><a href="PNG/tibble.png">tibble.png</a><br /><a href="SVG/tibble.svg">tibble.svg</a>
+<img alt="Logo for themis" src="thumbs/themis.png" width="120" height="139"><br /><a href="PNG/themis.png">themis.png</a><br /><a href="SVG/themis.svg">themis.svg</a>
 
 </td>
 
 <td>
 
-<img alt="Logo for tidymodels" src="thumbs/tidymodels.png" width="120" height="139"><br /><a href="PNG/tidymodels.png">tidymodels.png</a><br /><a href="SVG/tidymodels.svg">tidymodels.svg</a>
+<img alt="Logo for tibble" src="thumbs/tibble.png" width="120" height="139"><br /><a href="PNG/tibble.png">tibble.png</a><br /><a href="SVG/tibble.svg">tibble.svg</a>
 
 </td>
 
 </tr>
 
 <tr>
+
+<td>
+
+<img alt="Logo for tidymodels" src="thumbs/tidymodels.png" width="120" height="139"><br /><a href="PNG/tidymodels.png">tidymodels.png</a><br /><a href="SVG/tidymodels.svg">tidymodels.svg</a>
+
+</td>
 
 <td>
 
@@ -577,15 +617,21 @@ on how to print them yourself.
 
 </td>
 
+</tr>
+
+<tr>
+
+<td>
+
+<img alt="Logo for torch" src="thumbs/torch.png" width="120" height="139"><br /><a href="PNG/torch.png">torch.png</a><br /><a href="SVG/torch.svg">torch.svg</a>
+
+</td>
+
 <td>
 
 <img alt="Logo for tune" src="thumbs/tune.png" width="120" height="139"><br /><a href="PNG/tune.png">tune.png</a><br /><a href="SVG/tune.svg">tune.svg</a>
 
 </td>
-
-</tr>
-
-<tr>
 
 <td>
 
@@ -598,6 +644,16 @@ on how to print them yourself.
 <img alt="Logo for vctrs" src="thumbs/vctrs.png" width="120" height="139"><br /><a href="PNG/vctrs.png">vctrs.png</a><br /><a href="SVG/vctrs.svg">vctrs.svg</a>
 
 </td>
+
+<td>
+
+<img alt="Logo for vetiver" src="thumbs/vetiver.png" width="120" height="139"><br /><a href="PNG/vetiver.png">vetiver.png</a><br /><a href="SVG/vetiver.svg">vetiver.svg</a>
+
+</td>
+
+</tr>
+
+<tr>
 
 <td>
 
@@ -617,10 +673,6 @@ on how to print them yourself.
 
 </td>
 
-</tr>
-
-<tr>
-
 <td>
 
 <img alt="Logo for yardstick" src="thumbs/yardstick.png" width="120" height="139"><br /><a href="PNG/yardstick.png">yardstick.png</a><br /><a href="SVG/yardstick.svg">yardstick.svg</a>
@@ -632,3 +684,14 @@ on how to print them yourself.
 </table>
 
 All stickers are licensed [CC0](LICENSE.md).
+
+## Printing
+
+Look for a company that offers die-cut stickers. We recommend using the
+PNG version of the sticker. The printed stickers should be 1.74" x 2".
+
+If you use the SVG version:
+
+  - Specify colors as CMYK using the U.S. Web Coated (SWOP) v2 profile.
+  - Save a copy of your final sticker and convert all text to outlines
+    to avoid font problems.
