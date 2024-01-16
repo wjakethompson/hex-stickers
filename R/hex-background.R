@@ -4,12 +4,13 @@ library(glue)
 library(here)
 library(fs)
 
-aspect_ratio <- "27:12"
-rstudio_only <- FALSE
+aspect_ratio <- "2:1"
+padding_px <- 10
+rstudio_only <- TRUE
+featured <- c("tidyverse", "tidymodels")
 
 # Read images ------------------------------------------------------------------
-rstudio_stickers <- dir_ls(here("PNG")) %>%
-  str_subset("rmarkdown", negate = TRUE)
+rstudio_stickers <- dir_ls(here("PNG"))
 new_stickers <- dir_ls(here("other-stickers", "unmerged"))
 
 if (!rstudio_only) {
@@ -27,6 +28,9 @@ stickers <- sticker_files %>%
   map(image_transparent, "white") %>%
   map(image_trim) %>%
   set_names(sticker_names)
+
+featured_stickers <- stickers[paste0(featured, ".png")]
+stickers <- stickers[which(!names(stickers) %in% paste0(featured, ".png"))]
 
 # Desired sticker resolution in pixels
 sticker_width <- 121
@@ -58,6 +62,21 @@ sticker_height <- stickers %>%
 # Coerce sticker dimensions
 stickers <- stickers %>%
   map(image_resize, paste0(sticker_width, "x", sticker_height, "!"))
+
+canvas <- image_blank(sticker_width + padding_px,
+                      sticker_height + padding_px,
+                      color = "white")
+
+stickers <- map(stickers,
+                function(.x, canvas, padding_px) {
+                  image_composite(canvas, .x,
+                                  offset = paste0("+", padding_px / 2,
+                                                  "+", padding_px / 2)) |>
+                    image_transparent(color = "white")
+                },
+                canvas = canvas, padding_px = padding_px)
+sticker_width <- sticker_width + padding_px
+sticker_height <- sticker_height + padding_px
 
 
 # Create sticker wall ----------------------------------------------------------
@@ -153,11 +172,12 @@ total_stickers <- sticker_row_size * sticker_col_size
 
 # Randomize stickers
 if (total_stickers > length(stickers)) {
-  extra <- total_stickers - length(stickers)
+  full_sets <- floor(total_stickers / length(stickers))
+  extra <- total_stickers %% length(stickers)
   iter <- 0
   good_sample <- FALSE
   while(!good_sample) {
-    choose <- sample(c(seq_along(stickers),
+    choose <- sample(c(rep(seq_along(stickers), full_sets),
                        sample(seq_along(stickers), size = extra)),
                      size = total_stickers, replace = FALSE)
     check_stick <- c(choose, choose)
