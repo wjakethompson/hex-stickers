@@ -9,6 +9,8 @@ padding_px <- 10
 rstudio_only <- TRUE
 featured <- c("tidyverse", "tidymodels")
 
+set.seed(76748)
+
 # Read images ------------------------------------------------------------------
 rstudio_stickers <- dir_ls(here("PNG"))
 new_stickers <- dir_ls(here("other-stickers", "unmerged"))
@@ -135,7 +137,7 @@ calc_dim <- function(aspect_ratio = "16:9", total_files = length(stickers),
     cur_height <- target_height * multiplier
 
     sticker_row_size <- round(cur_width / sticker_width, digits = 0)
-    sticker_col_size <- round(((cur_height - sticker_height) / (sticker_height / 1.33526)) + 1)
+    sticker_col_size <- round(((cur_height) / (sticker_height / 1.33526)) + 1)
     total_stickers <- sticker_row_size * sticker_col_size
 
     if (sticker_col_size %% 2 != 0) {
@@ -155,6 +157,22 @@ calc_dim <- function(aspect_ratio = "16:9", total_files = length(stickers),
   ret_list <- list(target_width = target_width * final_mult,
                    target_height = target_height * final_mult)
 }
+add_featured <- function(img, featured, crop_info, feat_info) {
+  total_width <- crop_info$width
+  feat_width <- feat_info$width
+  extra_width <- total_width - (feat_width * length(featured))
+  width_spacing <- extra_width / (length(featured) + 1)
+
+  for (i in seq_along(featured)) {
+    img <- image_composite(
+      img, featured[[i]],
+      offset = glue("+{(width_spacing * i) + (feat_width * (i - 1))}",
+                    "+{(crop_info$height - feat_info$height) / 2}")
+    )
+  }
+
+  return(img)
+}
 
 dimensions <- calc_dim(aspect_ratio = aspect_ratio,
                        total_files = length(stickers), allow_resample = TRUE,
@@ -165,7 +183,7 @@ target_width <- dimensions$target_width
 target_height <- dimensions$target_height
 
 sticker_row_size <- round(target_width / sticker_width, digits = 0)
-sticker_col_size <- round(((target_height - sticker_height) /
+sticker_col_size <- round(((target_height) /
                              (sticker_height / 1.33526)) + 1,
                           digits = 0)
 total_stickers <- sticker_row_size * sticker_col_size
@@ -186,7 +204,8 @@ if (total_stickers > length(stickers)) {
     good_check <- TRUE
     for (i in seq_along(unique_stick)) {
       cur_loc <- which(check_stick == unique_stick[i])
-      if (any(diff(cur_loc) <= (sticker_row_size * 2.5))) {
+      if (any(diff(cur_loc) %in%
+              c(1:5, (sticker_row_size - 5):(sticker_row_size + 5)))) {
         good_check <- FALSE
         break
       }
@@ -198,7 +217,7 @@ if (total_stickers > length(stickers)) {
       iter <- iter + 1
     }
 
-    if (iter > 100000) stop("Max iterations reached")
+    if (iter > 500000) stop("Max iterations reached")
   }
 
   stickers <- stickers[choose]
@@ -206,6 +225,7 @@ if (total_stickers > length(stickers)) {
   stickers <- stickers[sample(seq_along(stickers), size = total_stickers,
                               replace = FALSE)]
 }
+
 
 # Calculate row sizes
 row_length <- rep(sticker_row_size, sticker_col_size)
@@ -218,14 +238,6 @@ color_rows <- pmap(.l = list(row_lens = row_length,
                    width = sticker_width, height = sticker_height,
                    opacity = 0, op_prop = 0)
 color_rows <- c(color_rows, color_rows[[1]])
-
-trans_rows <- pmap(.l = list(row_lens = row_length,
-                             row_cuml = cumsum(row_length),
-                             row_splt = row_split),
-                   .f = create_rows, stickers = stickers,
-                   width = sticker_width, height = sticker_height,
-                   opacity = 70, op_prop = 0.7)
-trans_rows <- c(trans_rows, trans_rows[[1]])
 
 
 # Add stickers to canvas
@@ -241,15 +253,9 @@ color_wall <- reduce2(color_rows, seq_along(color_rows),
                       ),
                       .init = canvas)
 
-trans_wall <- reduce2(trans_rows, seq_along(trans_rows),
-                      ~ image_composite(
-                        ..1, ..2,
-                        offset = paste0("+0",
-                                        "+", round((..3 - 1) * sticker_height / 1.33526))
-                      ),
-                      .init = canvas)
 
 out_type <- switch(aspect_ratio,
+                   "2:1" = "website-promo",
                    "16:9" = "zoom",
                    "9.25:7.75" = "mousepad",
                    "27:12" = "mousepad-L",
@@ -259,14 +265,32 @@ out_type <- switch(aspect_ratio,
 outdir <- here("hex-wall", out_type)
 if (!dir_exists(outdir)) dir_create(outdir)
 
-color_wall %>%
-  image_crop(glue("{sticker_row_size * sticker_width}",
-                  "x{(sticker_height * .75) + (sticker_row_size - 1) * sticker_height / 1.33526}",
-                  "+0+{sticker_height * .25}")) %>%
-  image_write(here("hex-wall", out_type, "full-color-wall.png"))
+asp <- str_split(aspect_ratio, ":") |>
+  flatten_chr() |>
+  as.integer()
+asp <- asp[2] / asp[1]
 
-trans_wall %>%
-  image_crop(glue("{sticker_row_size * sticker_width}",
-                  "x{(sticker_height * .75) + (sticker_row_size - 1) * sticker_height / 1.33526}",
-                  "+0+{sticker_height * .25}")) %>%
-  image_write(here("hex-wall", out_type, "opacity-wall.png"))
+cropped_wall <- color_wall |>
+  image_crop(paste0(image_info(color_wall)$width, ":",
+                    image_info(color_wall)$width * asp),
+             gravity = "center")
+
+featured_width <- floor((image_info(cropped_wall)$height *
+                           (1 - (0.1 * length(featured_stickers)))) /
+                          image_info(featured_stickers[[1]])$height *
+                          image_info(featured_stickers[[1]])$width)
+final_featured <- map(featured_stickers, image_scale, featured_width)
+
+final_img <- cropped_wall |>
+  image_composite(image_blank(width = image_info(cropped_wall)$width,
+                              height = image_info(cropped_wall)$height,
+                              color = "#FFFFFF66")) |>
+  add_featured(final_featured, crop_info = image_info(cropped_wall),
+               feat_info = image_info(final_featured[[1]]))
+
+final_img |>
+  image_write(here("hex-wall", out_type,
+                   glue("{str_c(featured, collapse = '_')}.png")))
+final_img |>
+  image_write(here("hex-wall", out_type,
+                   glue("{str_c(featured, collapse = '_')}.jpg")))
